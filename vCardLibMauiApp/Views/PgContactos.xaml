@@ -43,9 +43,9 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="vcard:vCard">
-                        <Frame Style="{StaticResource FrameItem}">
+                        <Border Style="{StaticResource BorderItem}">
                             <Label Text="{Binding FormattedName, Mode=OneWay}" />
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>

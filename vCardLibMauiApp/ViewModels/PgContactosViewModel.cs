@@ -76,7 +76,7 @@ public partial class PgContactosViewModel : ObservableRecipient
             bool result = contactosServ.Insert(m);
             if (result)
             {
-                Vcards.Add(m);
+                Vcards.Insert(0, m);
             }
             SelectedVcard = null;
         });
@@ -92,7 +92,7 @@ public partial class PgContactosViewModel : ObservableRecipient
                     r.Vcards![idx] = m;
                 }
                 SelectedVcard = null;
-            }            
+            }
         });
     }
 }
