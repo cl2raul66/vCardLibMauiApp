@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="vCardLibMauiApp.Views.PgContactos"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vcard="clr-namespace:vCardLib.Models;assembly=vCardLib"
+    xmlns:vm="clr-namespace:vCardLibMauiApp.ViewModels"
+    Title="Contactos"
+    x:DataType="vm:PgContactosViewModel"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Animated">
+
+    <Grid
+        Margin="16"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="16">
+        <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
+            <Label Text="Contactos" TextTransform="Uppercase" />
+            <HorizontalStackLayout Grid.Column="1" Spacing="4">
+                <Button Command="{Binding IrNuevoCommand}" Text="Nuevo" />
+                <Button
+                    Command="{Binding IrEditarCommand}"
+                    IsEnabled="{Binding SelectedVcard, Mode=OneWay, Converter={ctk:IsNotNullConverter}}"
+                    Text="Editar" />
+                <Button
+                    Command="{Binding EliminarCommand}"
+                    IsEnabled="{Binding SelectedVcard, Mode=OneWay, Converter={ctk:IsNotNullConverter}}"
+                    Text="Eliminar" />
+            </HorizontalStackLayout>
+        </Grid>
+        <ScrollView Grid.Row="1">
+            <CollectionView
+                ItemsSource="{Binding Vcards, Mode=OneWay}"
+                SelectedItem="{Binding SelectedVcard}"
+                SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="4"
+                        Orientation="Vertical"
+                        Span="3"
+                        VerticalItemSpacing="4" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vcard:vCard">
+                        <Frame Style="{StaticResource FrameItem}">
+                            <Label Text="{Binding FormattedName, Mode=OneWay}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="No hay contactos"
+                            VerticalOptions="Center" />
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="2" Spacing="16">
+            <Frame IsVisible="{Binding Vcards, Mode=OneWay, Converter={ctk:IsNotNullConverter}}">
+                <Grid RowDefinitions="auto,auto" RowSpacing="8">
+                    <Label Text="Accesos rápidos:" />
+                    <VerticalStackLayout Grid.Row="1" Spacing="4">
+                        <Button Text="Importar" />
+                        <Button Text="Exportar" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+            <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
+                <Label Text="byRandA Media Lab, Group" />
+                <Label Grid.Column="1" Text="{Binding Vcards.Count, Mode=OneWay, StringFormat='Cantidad: {0}', TargetNullValue='Cantidad: 0', FallbackValue='Cantidad: 0'}" />
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
